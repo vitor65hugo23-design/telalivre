@@ -117,7 +117,7 @@ footer { border-top: 1px solid var(--line); padding: 25px 0 35px; color: var(--m
   <header class="header">
     <div class="shell nav">
       <a class="brand" href="#inicio" aria-label="TelaLivre início">Tela<span>Livre</span></a>
-      <nav class="navlinks" aria-label="Navegação principal"><a href="#inicio">Início</a><a href="#catalogo">Catálogo</a><a href="#favoritos">Minha lista</a></nav>
+      <nav class="navlinks" aria-label="Navegação principal"><a href="#inicio">Início</a><a href="#catalogo">Catálogo</a><a href="#fontes-gratuitas">Conteúdo grátis</a><a href="#favoritos">Minha lista</a></nav>
       <div class="searchbox"><span class="searchicon">⌕</span><input id="search" type="search" placeholder="Buscar título, gênero..." aria-label="Buscar no catálogo"></div>
       <button class="btn secondary" id="adminBtn">Administração</button>
     </div>
@@ -138,6 +138,14 @@ footer { border-top: 1px solid var(--line); padding: 25px 0 35px; color: var(--m
         <input id="primeSearch" type="search" aria-label="Buscar no Prime Video" placeholder="Digite o nome de um filme ou série" required style="flex:1;min-width:190px;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--site-on-background)">
         <button class="btn" type="submit">Buscar no Prime Video</button>
       </form>
+    </section>
+    <section class="section" id="fontes-gratuitas" style="padding:20px;border:2px solid var(--accent2);border-radius:16px;background:var(--surface)">
+      <div class="section-head"><h2>Conteúdo grátis — sem assinatura</h2><span class="count">Fontes abertas</span></div>
+      <div class="notice">Encontre filmes, documentários e vídeos de domínio público ou com licença aberta. Confira a licença e as condições de atribuição de cada obra antes de adicioná-la ao catálogo.</div>
+      <div class="hero-actions">
+        <a class="btn" href="https://archive.org/details/movies" target="_blank" rel="noopener noreferrer">Explorar Internet Archive</a>
+        <a class="btn secondary" href="https://commons.wikimedia.org/wiki/Category:Videos" target="_blank" rel="noopener noreferrer">Explorar vídeos Wikimedia</a>
+      </div>
     </section>
     <section class="section" id="catalogo">
       <div class="section-head"><h2>Catálogo aberto</h2><span class="count" id="count"></span></div>
