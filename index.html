@@ -131,6 +131,14 @@ footer { border-top: 1px solid var(--line); padding: 25px 0 35px; color: var(--m
         <div class="hero-actions"><button class="btn" id="exploreBtn">Explorar catálogo</button><button class="btn ghost" id="featuredBtn">Ver destaque</button></div>
       </div>
     </section>
+    <section class="section" id="primevideo">
+      <div class="section-head"><h2>Encontrar no Prime Video</h2><span class="count">Assistir na fonte oficial</span></div>
+      <div class="notice">Pesquise filmes e séries no Prime Video. Os resultados abrem no serviço oficial; o TelaLivre não copia nem reproduz conteúdo protegido.</div>
+      <form id="primeSearchForm" class="hero-actions" style="margin-top:12px">
+        <input id="primeSearch" type="search" aria-label="Buscar no Prime Video" placeholder="Digite o nome de um filme ou série" required style="flex:1;min-width:190px;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--site-on-background)">
+        <button class="btn" type="submit">Buscar no Prime Video</button>
+      </form>
+    </section>
     <section class="section" id="catalogo">
       <div class="section-head"><h2>Catálogo aberto</h2><span class="count" id="count"></span></div>
       <div class="filters" id="filters" aria-label="Filtrar por categoria"></div>
@@ -247,6 +255,7 @@ document.addEventListener('click', event => {
 });
 $('#adminBtn').addEventListener('click',()=>{resetForm();openModal('adminModal');});
 $('#exploreBtn').addEventListener('click',()=>$('#catalogo').scrollIntoView({behavior:'smooth'}));
+$('#primeSearchForm').addEventListener('submit',event=>{event.preventDefault();const term=$('#primeSearch').value.trim();if(!term)return;window.open('https://www.primevideo.com/search/ref=atv_nb_sr?phrase='+encodeURIComponent(term),'_blank','noopener,noreferrer');});
 $('#featuredBtn').addEventListener('click',()=>{const featured=items.find(item=>item.featured);if(featured)watch(featured.id);else toast('Nenhum destaque cadastrado ainda.');});
 $('#contentForm').addEventListener('submit', event => {
   event.preventDefault();
