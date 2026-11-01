@@ -2,48 +2,410 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#101018">
-<title>TelaLivre — catálogo aberto</title>
+<title>TelaLivre — entretenimento aberto</title>
 <style>
-:root{color-scheme:dark;--bg:#101018;--panel:#1b1b29;--line:#38384a;--text:#f5f5fa;--muted:#aaaabd;--accent:#7655e8;--mint:#48d7c5}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,sans-serif}.shell{width:min(1120px,100%);margin:auto;padding:0 20px}header{position:sticky;top:0;background:#101018ed;border-bottom:1px solid var(--line);z-index:3}.nav{min-height:68px;display:flex;align-items:center;gap:16px}.brand{font-size:25px;font-weight:900;color:white;text-decoration:none}.brand span{color:var(--mint)}input,select,textarea{font:inherit;width:100%;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:11px}button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:10px 15px;background:var(--accent);color:white;font-weight:700}.secondary{background:#262638;border:1px solid var(--line)}.nav input{max-width:340px;margin-left:auto}.hero{margin:26px 0;padding:clamp(28px,6vw,58px);min-height:270px;display:flex;align-items:end;border:1px solid #ffffff20;border-radius:22px;background:radial-gradient(ellipse at 80% 15%,#7655e8,transparent 36%),linear-gradient(115deg,#162e3c,#202044 60%,#101018)}h1{font-size:clamp(34px,6vw,58px);line-height:1.03;margin:8px 0}.hero p{max-width:560px;color:#d4d5e1}.kicker{color:var(--mint);font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase}.section{margin:32px 0}.filters{display:flex;gap:8px;overflow:auto;padding:8px 0 14px}.chip{white-space:nowrap;background:var(--panel);border:1px solid var(--line);color:var(--muted)}.chip.active{background:var(--accent);color:white}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:15px}.card{overflow:hidden;background:var(--panel);border:1px solid var(--line);border-radius:14px}.poster{height:225px;display:grid;place-items:center;background:linear-gradient(145deg,#233d57,#48356f);font-size:23px;font-weight:900;text-align:center;padding:14px}.poster img{width:100%;height:100%;object-fit:cover}.body{padding:12px}.meta,.muted{color:var(--muted);font-size:12px}.actions{display:flex;gap:7px;margin-top:10px}.actions button{flex:1;padding:8px;font-size:12px}.notice,.empty{padding:16px;border:1px solid var(--line);border-radius:12px;color:var(--muted);background:var(--panel)}.empty{grid-column:1/-1;text-align:center}.modal{display:none;position:fixed;inset:0;z-index:10;background:#000c;padding:16px;align-items:center;justify-content:center}.modal.show{display:flex}.dialog{width:min(720px,100%);max-height:92vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}.head{display:flex;justify-content:space-between;align-items:center;gap:12px}.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:5px}.full{grid-column:1/-1}.field textarea{min-height:75px}.hide{display:none!important}video,iframe{width:100%;aspect-ratio:16/9;background:#000;border:0;border-radius:10px}.adminitem{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px;border:1px solid var(--line);border-radius:10px;margin-top:8px}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:white;color:#111;padding:10px 15px;border-radius:20px;display:none;z-index:20}.toast.show{display:block}footer{padding:25px 0;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}@media(max-width:650px){.nav{flex-wrap:wrap;padding:12px 0}.nav input{order:3;max-width:none;width:100%;margin:0}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.poster{height:180px}.form{grid-template-columns:1fr}.full{grid-column:auto}}
+:root {
+  --site-primary: #7655e8;
+  --site-on-primary: #ffffff;
+  --site-secondary: #182331;
+  --site-on-secondary: #f4f6fb;
+  --site-background: #101018;
+  --site-on-background: #f5f5fa;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: Inter, ui-sans-serif, system-ui, sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  --surface: #191925;
+  --surface-raised: #222231;
+  --muted: #a7a7b8;
+  --line: #343447;
+  --accent2: #48d7c5;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--site-background); color: var(--site-on-background); font: 15px/1.5 var(--site-font-body); }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+.app { min-height: 100vh; width: 100%; background-color: var(--site-background); color: var(--site-on-background); overflow: hidden; }
+.shell { width: min(1220px, 100%); margin: 0 auto; padding: 0 calc(22px * var(--site-spacing-scale)); }
+.header { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--site-background) 94%, transparent); border-bottom: 1px solid var(--line); backdrop-filter: blur(16px); }
+.nav { min-height: 74px; display: flex; align-items: center; gap: 28px; }
+.brand { display: inline-flex; gap: 1px; align-items: center; color: var(--site-on-background); text-decoration: none; font: 900 25px/1 var(--site-font-heading); letter-spacing: -1.3px; }
+.brand span { color: var(--accent2); }
+.navlinks { display: flex; align-items: center; gap: 22px; }
+.navlinks a { color: var(--muted); text-decoration: none; font-weight: 650; }
+.navlinks a:hover { color: var(--site-on-background); }
+.searchbox { margin-left: auto; width: min(310px, 32vw); position: relative; }
+.searchbox input { width: 100%; padding: 11px 14px 11px 39px; border: 1px solid var(--line); border-radius: calc(12px * var(--site-radius-scale)); background: var(--surface); color: var(--site-on-background); outline: none; }
+.searchbox input:focus, .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--site-primary); box-shadow: 0 0 0 3px color-mix(in srgb, var(--site-primary) 22%, transparent); }
+.searchicon { position: absolute; left: 13px; top: 10px; color: var(--muted); }
+.btn { border: 1px solid transparent; border-radius: calc(11px * var(--site-radius-scale)); padding: 10px 15px; font-weight: 750; color: var(--site-on-primary); background: var(--site-primary); }
+.btn:hover { filter: brightness(1.1); }
+.btn.secondary { background: var(--site-secondary); color: var(--site-on-secondary); border-color: var(--line); }
+.btn.ghost { background: transparent; border-color: var(--line); color: var(--site-on-background); }
+.btn.small { padding: 7px 10px; font-size: 12px; }
+main { padding-bottom: 46px; }
+.hero { margin: 28px 0 38px; min-height: 355px; padding: clamp(25px, 5vw, 58px); display: flex; align-items: end; border: 1px solid #ffffff18; border-radius: calc(25px * var(--site-radius-scale)); overflow: hidden; position: relative; background: radial-gradient(ellipse at 78% 20%, #7655e8 0, transparent 35%), linear-gradient(115deg, #162e3c 0%, #202044 55%, #101018 100%); }
+.hero:after { content: "▶"; position: absolute; right: 9%; top: 7%; font-size: clamp(100px, 19vw, 220px); line-height: 1; color: #ffffff0d; transform: rotate(-8deg); pointer-events: none; }
+.hero-content { max-width: 590px; position: relative; z-index: 1; }
+.kicker { color: var(--accent2); text-transform: uppercase; letter-spacing: 2px; font-size: 11px; font-weight: 850; }
+h1, h2, h3 { font-family: var(--site-font-heading); }
+.hero h1 { margin: 10px 0 13px; font-size: calc(clamp(34px, 5.5vw, 61px) * var(--site-heading-scale)); letter-spacing: -2.2px; line-height: 1.02; }
+.hero p { max-width: 500px; color: #d4d5e1; font-size: 16px; }
+.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+.section { margin: 34px 0; }
+.section-head { display: flex; justify-content: space-between; align-items: end; gap: 12px; margin-bottom: 16px; }
+.section-head h2 { font-size: calc(23px * var(--site-heading-scale)); letter-spacing: -.6px; margin: 0; }
+.muted { color: var(--muted); }
+.count { color: var(--muted); font-size: 13px; }
+.filters { display: flex; gap: 8px; overflow-x: auto; padding: 2px 0 15px; scrollbar-width: thin; }
+.chip { white-space: nowrap; padding: 8px 14px; border-radius: 99px; color: var(--muted); background: var(--surface); border: 1px solid var(--line); }
+.chip.active { color: white; background: var(--site-primary); border-color: var(--site-primary); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 17px; }
+.card { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: calc(15px * var(--site-radius-scale)); background: var(--surface); transition: transform .18s ease, border-color .18s ease; }
+.card:hover { transform: translateY(-3px); border-color: var(--site-primary); }
+.poster { height: 240px; display: grid; place-items: center; position: relative; overflow: hidden; background: linear-gradient(145deg, var(--c1, #233d57), var(--c2, #48356f)); }
+.poster img { width: 100%; height: 100%; object-fit: cover; }
+.poster-fallback { padding: 17px; text-align: center; font: 900 23px/1.1 var(--site-font-heading); letter-spacing: -.7px; text-shadow: 0 2px 14px #0008; }
+.type-tag { position: absolute; top: 10px; left: 10px; background: #090912c9; border: 1px solid #ffffff35; color: white; border-radius: 99px; padding: 4px 8px; font-size: 10px; font-weight: 800; }
+.card-body { padding: 12px; }
+.card-title { font-weight: 850; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-meta { color: var(--muted); font-size: 12px; margin: 4px 0 10px; }
+.card-actions { display: flex; gap: 7px; }
+.card-actions .btn { flex: 1; padding: 8px 9px; font-size: 12px; }
+.empty { grid-column: 1/-1; padding: 38px 20px; text-align: center; border: 1px dashed var(--line); border-radius: 14px; color: var(--muted); background: var(--surface); }
+.notice { border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; color: var(--muted); background: var(--surface); font-size: 13px; }
+footer { border-top: 1px solid var(--line); padding: 25px 0 35px; color: var(--muted); font-size: 12px; }
+.modal { position: fixed; inset: 0; z-index: 50; display: none; align-items: center; justify-content: center; padding: 16px; background: #05050bdc; }
+.modal.show { display: flex; }
+.dialog { width: min(780px, 100%); max-height: 92vh; overflow: auto; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); padding: 20px; box-shadow: 0 20px 80px #0008; }
+.dialog-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 12px; }
+.dialog-head h2 { margin: 0; font-size: 21px; }
+.player { width: 100%; aspect-ratio: 16/9; background: #000; border: 0; border-radius: 12px; margin: 10px 0; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field.full { grid-column: 1/-1; }
+.field label { color: var(--muted); font-size: 12px; font-weight: 700; }
+.field input, .field select, .field textarea { width: 100%; min-width: 0; border: 1px solid var(--line); border-radius: 9px; padding: 10px 11px; color: var(--site-on-background); background: var(--site-background); outline: none; }
+.field textarea { min-height: 72px; resize: vertical; }
+.admin-tools { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+.admin-list { display: grid; gap: 8px; margin-top: 15px; }
+.admin-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px; background: var(--site-background); border: 1px solid var(--line); border-radius: 10px; }
+.admin-row small { display: block; color: var(--muted); }
+.hide { display: none !important; }
+.toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); z-index: 100; padding: 11px 16px; border-radius: 99px; background: var(--site-on-background); color: var(--site-background); font-weight: 750; box-shadow: 0 8px 30px #0006; display: none; }
+.toast.show { display: block; }
+@media (max-width: 720px) {
+  .nav { min-height: 66px; flex-wrap: wrap; gap: 13px; padding-top: 12px; padding-bottom: 12px; }
+  .navlinks { display: none; }
+  .searchbox { order: 3; width: 100%; }
+  #adminBtn { margin-left: auto; }
+  .hero { min-height: 320px; margin-top: 18px; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+  .poster { height: 190px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .field.full { grid-column: auto; }
+}
+@media (max-width: 360px) { .shell { padding-left: 13px; padding-right: 13px; } .poster { height: 165px; } }
 </style>
 </head>
 <body>
-<header><div class="shell nav"><a class="brand" href="#">Tela<span>Livre</span></a><input id="search" type="search" placeholder="Buscar título ou categoria..." aria-label="Buscar"><button class="secondary" id="adminOpen">Administração</button></div></header>
-<main class="shell">
-<section class="hero"><div><div class="kicker">Entretenimento aberto</div><h1>Histórias para todos os momentos.</h1><p>Descubra filmes independentes, documentários, séries e conteúdos gratuitos disponibilizados por fontes autorizadas.</p><button id="explore">Explorar catálogo</button></div></section>
-<section class="section" id="catalogSection"><h2>Catálogo aberto <span class="muted" id="count"></span></h2><div class="filters" id="filters"></div><div class="grid" id="catalog"><div class="empty">Carregando catálogo…</div></div></section>
-<section class="section"><h2>Minha lista</h2><div class="grid" id="favorites"><div class="empty">Seus favoritos ficam salvos neste dispositivo.</div></div></section>
-<div class="notice">Cadastre somente vídeos próprios, de domínio público ou com autorização de distribuição. O TelaLivre não hospeda os vídeos; reproduz fontes autorizadas.</div>
-</main><footer><div class="shell">TelaLivre · Catálogo gratuito</div></footer>
-<div class="modal" id="player"><div class="dialog"><div class="head"><h2 id="playerTitle">Assistir</h2><button class="secondary" data-close="player">Fechar</button></div><div id="playerArea"></div><p class="muted" id="playerDesc"></p></div></div>
-<div class="modal" id="admin"><div class="dialog"><div class="head"><h2>Administração</h2><button class="secondary" data-close="admin">Fechar</button></div><p class="notice" id="status">Entre com seu e-mail e senha do Supabase.</p>
-<form id="login" class="form"><div class="field full"><label>E-mail</label><input id="email" type="email" autocomplete="username" required></div><div class="field full"><label>Senha</label><input id="password" type="password" autocomplete="current-password" required></div><div class="full"><button type="submit">Entrar</button></div></form>
-<div id="workspace" class="hide"><div class="actions"><button class="secondary" id="logout" type="button">Sair</button></div><form id="contentForm" class="form"><div class="field"><label>Título *</label><input name="title" required maxlength="90"></div><div class="field"><label>Categoria</label><select name="category"><option>Filme independente</option><option>Série</option><option>Documentário</option><option>Curta-metragem</option><option>Infantil</option><option>Educativo</option><option>Outro</option></select></div><div class="field"><label>Ano</label><input name="year" type="number" min="1900" max="2100"></div><div class="field"><label>Duração</label><input name="duration" maxlength="30"></div><div class="field full"><label>Link MP4 ou YouTube *</label><input name="video_url" type="url" required placeholder="https://..."></div><div class="field full"><label>Link da capa</label><input name="poster_url" type="url" placeholder="https://..."></div><div class="field full"><label>Sinopse</label><textarea name="description" maxlength="300"></textarea></div><div class="field full"><label><input name="featured" type="checkbox" style="width:auto"> Destacar conteúdo</label></div><div class="full"><button type="submit">Salvar conteúdo</button><button class="secondary hide" type="button" id="cancelEdit">Cancelar edição</button></div></form><h3>Conteúdos cadastrados</h3><div id="adminList"></div></div></div></div>
-<div class="toast" id="toast"></div>
+<div class="app" id="app">
+  <header class="header">
+    <div class="shell nav">
+      <a class="brand" href="#inicio" aria-label="TelaLivre início">Tela<span>Livre</span></a>
+      <nav class="navlinks" aria-label="Navegação principal"><a href="#inicio">Início</a><a href="#catalogo">Catálogo</a><a href="#favoritos">Minha lista</a></nav>
+      <div class="searchbox"><span class="searchicon">⌕</span><input id="search" type="search" placeholder="Buscar título, gênero..." aria-label="Buscar no catálogo"></div>
+      <button class="btn secondary" id="adminBtn">Administração</button>
+    </div>
+  </header>
+  <main class="shell" id="inicio">
+    <section class="hero">
+      <div class="hero-content">
+        <div class="kicker">Seu espaço de entretenimento</div>
+        <h1>Histórias para todos os momentos.</h1>
+        <p>Explore uma seleção de vídeos, filmes independentes, séries e conteúdos gratuitos disponibilizados por fontes autorizadas.</p>
+        <div class="hero-actions"><button class="btn" id="exploreBtn">Explorar catálogo</button><button class="btn ghost" id="featuredBtn">Ver destaque</button></div>
+      </div>
+    </section>
+    <section class="section" id="catalogo">
+      <div class="section-head"><h2>Catálogo aberto</h2><span class="count" id="count"></span></div>
+      <div class="filters" id="filters" aria-label="Filtrar por categoria"></div>
+      <div class="grid" id="catalog"></div>
+    </section>
+    <section class="section" id="favoritos">
+      <div class="section-head"><h2>Minha lista</h2><span class="count">Salva neste dispositivo</span></div>
+      <div class="grid" id="saved"></div>
+    </section>
+    <div class="notice">Este é um protótipo aberto. Os títulos de demonstração não contêm filmes comerciais nem vídeos protegidos. Cadastre somente conteúdos próprios, de domínio público ou com autorização de distribuição.</div>
+  </main>
+  <footer><div class="shell">TelaLivre · Catálogo gratuito demonstrativo · Conteúdos adicionados pelo administrador.</div></footer>
+</div>
+<div class="modal" id="playerModal" role="dialog" aria-modal="true" aria-labelledby="playerTitle"><div class="dialog"><div class="dialog-head"><h2 id="playerTitle">Reproduzir conteúdo</h2><button class="btn secondary small" data-close="playerModal">Fechar ✕</button></div><div id="playerArea"></div><p class="muted" id="playerDesc"></p></div></div>
+<div class="modal" id="adminModal" role="dialog" aria-modal="true" aria-labelledby="adminTitle"><div class="dialog"><div class="dialog-head"><h2 id="adminTitle">Painel de conteúdo</h2><button class="btn secondary small" data-close="adminModal">Fechar ✕</button></div>
+  <div class="notice" id="adminStatus">Entre com sua conta de administrador para gerenciar o catálogo compartilhado.</div>
+  <form id="loginForm" class="form-grid" style="margin-top:16px">
+    <div class="field full"><label for="adminEmail">E-mail do administrador</label><input id="adminEmail" type="email" autocomplete="username" required placeholder="Seu e-mail do Supabase"></div>
+    <div class="field full"><label for="adminPassword">Senha</label><input id="adminPassword" type="password" autocomplete="current-password" required placeholder="Sua senha"></div>
+    <div class="field full"><button class="btn" type="submit">Entrar na administração</button></div>
+  </form>
+  <div id="adminWorkspace" class="hide">
+  <div class="admin-tools"><button class="btn secondary small" id="logoutBtn" type="button">Sair da administração</button></div>
+  <div class="admin-tools"><button class="btn secondary small" id="exportBtn" type="button">Exportar catálogo (JSON)</button><button class="btn secondary small" id="importBtn" type="button">Importar catálogo</button><input class="hide" type="file" id="importFile" accept="application/json,.json"></div>
+  <section class="notice" style="margin:14px 0"><h3 style="margin:0 0 6px">Encontrar filmes com licença aberta</h3><p>Pesquise no Internet Archive. Só serão oferecidos para importação itens com arquivo MP4 e licença aberta identificável nos metadados. Confira os termos e a atribuição antes de publicar.</p><div style="display:flex;gap:8px;flex-wrap:wrap"><input id="openSearch" type="search" placeholder="Ex.: documentário natureza" style="flex:1;min-width:180px;background:var(--site-background);color:var(--site-on-background);border:1px solid var(--line);border-radius:9px;padding:10px"><button class="btn" id="openSearchBtn" type="button">Buscar catálogo</button></div><div id="openResults" class="admin-list" aria-live="polite"></div></section>
+  <form id="contentForm" class="form-grid" style="margin-top:16px">
+    <div class="field"><label for="title">Título *</label><input id="title" name="title" required maxlength="90" placeholder="Ex.: Viagem pela Amazônia"></div>
+    <div class="field"><label for="category">Categoria *</label><select id="category" name="category"><option>Filme independente</option><option>Série</option><option>Documentário</option><option>Curta-metragem</option><option>Infantil</option><option>Educativo</option><option>Outro</option></select></div>
+    <div class="field"><label for="year">Ano</label><input id="year" name="year" type="number" min="1900" max="2100" placeholder="2026"></div>
+    <div class="field"><label for="duration">Duração / episódios</label><input id="duration" name="duration" maxlength="30" placeholder="Ex.: 42 min"></div>
+    <div class="field full"><label for="url">Link de reprodução (MP4 ou YouTube) *</label><input id="url" name="url" type="url" required placeholder="https://..." autocomplete="url"></div>
+    <div class="field full"><label for="poster">Link da imagem de capa (opcional)</label><input id="poster" name="poster" type="url" placeholder="https://...jpg"></div>
+    <div class="field full"><label for="description">Sinopse</label><textarea id="description" name="description" maxlength="300" placeholder="Conte um pouco sobre este conteúdo..."></textarea></div>
+    <div class="field full"><label><input type="checkbox" name="featured" value="yes" style="width:auto"> Marcar como destaque</label></div>
+    <div class="field full"><button class="btn" type="submit">Adicionar ao catálogo</button></div>
+  </form>
+  <div class="admin-list" id="adminList"></div>
+  </div>
+</div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+const STORAGE_ITEMS = 'telalivre_catalog_v2';
+const STORAGE_FAVS = 'telalivre_favorites_v2';
+const demoItems = [
+  {id:'demo-1',title:'Amazônia em Foco',category:'Documentário',year:'2025',duration:'12 min',description:'Conteúdo demonstrativo sobre natureza e conservação. Adicione seu próprio link autorizado para reproduzir.',url:'',poster:'',featured:true},
+  {id:'demo-2',title:'Pequenas Grandes Histórias',category:'Curta-metragem',year:'2024',duration:'18 min',description:'Uma coleção demonstrativa de histórias independentes.',url:'',poster:'',featured:false},
+  {id:'demo-3',title:'Ciência para Todos',category:'Educativo',year:'2025',duration:'Série',description:'Aprendizado e curiosidades em episódios curtos.',url:'',poster:'',featured:false},
+  {id:'demo-4',title:'Mundo de Aventuras',category:'Infantil',year:'2023',duration:'24 min',description:'Exemplo de conteúdo familiar para o catálogo.',url:'',poster:'',featured:false}
+];
+let items = readJSON(STORAGE_ITEMS, demoItems);
+let favorites = readJSON(STORAGE_FAVS, []);
+let activeCategory = 'Todos';
+let editingId = null;
+const $ = (selector) => document.querySelector(selector);
+function readJSON(key, fallback) { try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; } catch { return fallback; } }
+function persist() { localStorage.setItem(STORAGE_ITEMS, JSON.stringify(items)); localStorage.setItem(STORAGE_FAVS, JSON.stringify(favorites)); }
+function esc(value='') { return String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch])); }
+function safeUrl(value) { try { const url = new URL(value); return ['https:','http:'].includes(url.protocol) ? url.href : ''; } catch { return ''; } }
+function toast(message) { const node = $('#toast'); node.textContent = message; node.classList.add('show'); window.clearTimeout(toast.timer); toast.timer = window.setTimeout(() => node.classList.remove('show'), 2600); }
+function posterMarkup(item) {
+  const poster = safeUrl(item.poster || '');
+  return `<div class="poster">${poster ? `<img src="${esc(poster)}" alt="Capa de ${esc(item.title)}" loading="lazy" onerror="this.remove()">` : `<div class="poster-fallback">${esc(item.title)}</div>`}<span class="type-tag">${esc(item.category)}</span></div>`;
+}
+function tile(item) {
+  const isFav = favorites.includes(item.id);
+  return `<article class="card">${posterMarkup(item)}<div class="card-body"><div class="card-title" title="${esc(item.title)}">${esc(item.title)}</div><div class="card-meta">${esc(item.year || 'Sem ano')} · ${esc(item.duration || item.category)}</div><div class="card-actions"><button class="btn" data-watch="${esc(item.id)}">▶ Assistir</button><button class="btn secondary" data-fav="${esc(item.id)}" aria-label="${isFav?'Remover dos':'Adicionar aos'} favoritos">${isFav?'♥':'♡'}</button></div></div></article>`;
+}
+function render() {
+  const categories = ['Todos', ...new Set(items.map(item => item.category).filter(Boolean))];
+  if (!categories.includes(activeCategory)) activeCategory = 'Todos';
+  $('#filters').innerHTML = categories.map(category => `<button class="chip ${activeCategory===category?'active':''}" data-category="${esc(category)}">${esc(category)}</button>`).join('');
+  const query = $('#search').value.trim().toLocaleLowerCase('pt-BR');
+  const matches = item => (activeCategory==='Todos' || item.category===activeCategory) && `${item.title} ${item.category} ${item.description} ${item.year}`.toLocaleLowerCase('pt-BR').includes(query);
+  const visible = items.filter(matches);
+  $('#count').textContent = `${visible.length} ${visible.length===1?'título':'títulos'}`;
+  $('#catalog').innerHTML = visible.length ? visible.map(tile).join('') : '<div class="empty">Nenhum conteúdo encontrado. Tente outro termo ou categoria.</div>';
+  const saved = items.filter(item => favorites.includes(item.id));
+  $('#saved').innerHTML = saved.length ? saved.map(tile).join('') : '<div class="empty">Toque no coração de um título para guardá-lo aqui.</div>';
+  $('#adminList').innerHTML = items.map(item => `<div class="admin-row"><div><b>${esc(item.title)}</b><small>${esc(item.category)} · ${esc(item.year || 'Ano não informado')}</small></div><div style="display:flex;gap:6px"><button class="btn secondary small" data-edit="${esc(item.id)}">Editar</button><button class="btn ghost small" data-delete="${esc(item.id)}">Excluir</button></div></div>`).join('') || '<p class="muted">Nenhum conteúdo cadastrado.</p>';
+}
+function openModal(id) { $('#'+id).classList.add('show'); }
+function closeModal(id) { $('#'+id).classList.remove('show'); if (id==='playerModal') $('#playerArea').innerHTML=''; }
+function watch(id) {
+  const item = items.find(entry => entry.id===id); if (!item) return;
+  $('#playerTitle').textContent = item.title;
+  $('#playerDesc').textContent = item.description || '';
+  const url = safeUrl(item.url || '');
+  const youtube = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
+  if (youtube) $('#playerArea').innerHTML = `<iframe class="player" src="https://www.youtube-nocookie.com/embed/${youtube[1]}" title="${esc(item.title)}" allow="accelerometer; autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+  else if (url && /\.mp4(?:$|\?)/i.test(url)) $('#playerArea').innerHTML = `<video class="player" controls playsinline preload="metadata" src="${esc(url)}">Seu navegador não conseguiu reproduzir este vídeo.</video>`;
+  else if (url) $('#playerArea').innerHTML = `<div class="notice">Este link não parece ser um MP4 direto ou um link do YouTube. <a href="${esc(url)}" target="_blank" rel="noopener noreferrer" style="color:var(--accent2)">Abrir a fonte em nova aba</a>.</div>`;
+  else $('#playerArea').innerHTML = '<div class="empty">Este é um título demonstrativo sem vídeo. Cadastre um link de vídeo próprio, de domínio público ou autorizado no painel administrativo.</div>';
+  openModal('playerModal');
+}
+function toggleFavorite(id) { favorites = favorites.includes(id) ? favorites.filter(value=>value!==id) : [...favorites,id]; persist(); render(); }
+function resetForm() { $('#contentForm').reset(); editingId=null; $('#contentForm button[type="submit"]').textContent='Adicionar ao catálogo'; }
+function editItem(id) {
+  const item=items.find(entry=>entry.id===id); if(!item) return;
+  editingId=id;
+  for (const key of ['title','category','year','duration','url','poster','description']) $('#contentForm').elements[key].value=item[key]||'';
+  $('#contentForm').elements.featured.checked=!!item.featured;
+  $('#contentForm button[type="submit"]').textContent='Salvar alterações';
+  $('#contentForm').scrollIntoView({behavior:'smooth',block:'start'});
+}
+$('#search').addEventListener('input', render);
+$('#filters').addEventListener('click', event => { const button=event.target.closest('[data-category]'); if(button){activeCategory=button.dataset.category;render();} });
+document.addEventListener('click', event => {
+  const watchButton=event.target.closest('[data-watch]'); if(watchButton) watch(watchButton.dataset.watch);
+  const favButton=event.target.closest('[data-fav]'); if(favButton) toggleFavorite(favButton.dataset.fav);
+  const editButton=event.target.closest('[data-edit]'); if(editButton) editItem(editButton.dataset.edit);
+  const deleteButton=event.target.closest('[data-delete]'); if(deleteButton){items=items.filter(item=>item.id!==deleteButton.dataset.delete);favorites=favorites.filter(id=>id!==deleteButton.dataset.delete);persist();render();toast('Conteúdo removido.');}
+  const closeButton=event.target.closest('[data-close]'); if(closeButton) closeModal(closeButton.dataset.close);
+  if(event.target.classList.contains('modal')) closeModal(event.target.id);
+});
+$('#adminBtn').addEventListener('click',()=>{resetForm();openModal('adminModal');});
+$('#exploreBtn').addEventListener('click',()=>$('#catalogo').scrollIntoView({behavior:'smooth'}));
+$('#featuredBtn').addEventListener('click',()=>{const featured=items.find(item=>item.featured);if(featured)watch(featured.id);else toast('Nenhum destaque cadastrado ainda.');});
+$('#contentForm').addEventListener('submit', event => {
+  event.preventDefault();
+  const data=Object.fromEntries(new FormData(event.currentTarget));
+  if(!safeUrl(data.url)){toast('Informe um link HTTP ou HTTPS válido.');return;}
+  if(data.poster && !safeUrl(data.poster)){toast('O link da capa precisa começar com http:// ou https://');return;}
+  const record={id:editingId||`item-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,title:data.title.trim(),category:data.category,year:data.year,duration:data.duration.trim(),url:safeUrl(data.url),poster:safeUrl(data.poster),description:data.description.trim(),featured:!!event.currentTarget.elements.featured.checked};
+  if(editingId) items=items.map(item=>item.id===editingId?record:item); else items.unshift(record);
+  persist();resetForm();render();toast(editingId?'Alterações salvas.':'Conteúdo adicionado.');
+});
+$('#exportBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(items,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='telalivre-catalogo.json';a.click();URL.revokeObjectURL(url);toast('Catálogo exportado.');});
+$('#importBtn').addEventListener('click',()=>$('#importFile').click());
+$('#importFile').addEventListener('change',async event=>{const file=event.target.files[0];if(!file)return;try{const parsed=JSON.parse(await file.text());if(!Array.isArray(parsed)||parsed.some(item=>!item.title||!item.category||typeof item.id!=='string'))throw new Error('Formato inválido');items=parsed.map(item=>({...item,url:safeUrl(item.url||''),poster:safeUrl(item.poster||'')}));persist();render();toast('Catálogo importado.');}catch{toast('Não foi possível importar: arquivo JSON inválido.');}event.target.value='';});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'){closeModal('playerModal');closeModal('adminModal');}});
+render();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const SUPABASE_URL='https://qlyguomavuncaknnhipl.supabase.co';
-const SUPABASE_KEY='sb_publishable_Vi1vZ1HHZ2cpxMpCCQX4Rg_hjn3Bu9o';
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let items=[],favorites=JSON.parse(localStorage.getItem('tl_favs')||'[]'),category='Todos',editing=null;
-const $=s=>document.querySelector(s),safeUrl=v=>{try{const u=new URL(v);return ['https:','http:'].includes(u.protocol)?u.href:''}catch{return ''}};
-function toast(t){$('#toast').textContent=t;$('#toast').classList.add('show');setTimeout(()=>$('#toast').classList.remove('show'),2600)}
-function esc(v=''){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function tile(x){return '<article class="card"><div class="poster">'+(safeUrl(x.poster_url)?'<img src="'+esc(x.poster_url)+'" alt="">':esc(x.title))+'</div><div class="body"><b>'+esc(x.title)+'</b><div class="meta">'+esc(x.category)+' · '+esc(x.year||'')+'</div><div class="actions"><button data-watch="'+x.id+'">▶ Assistir</button><button class="secondary" data-fav="'+x.id+'">'+(favorites.includes(x.id)?'♥':'♡')+'</button></div></div></article>'}
-function render(){const cats=['Todos',...new Set(items.map(x=>x.category))];if(!cats.includes(category))category='Todos';$('#filters').innerHTML=cats.map(c=>'<button class="chip '+(category===c?'active':'')+'" data-cat="'+esc(c)+'">'+esc(c)+'</button>').join('');const q=$('#search').value.trim().toLowerCase();const filtered=items.filter(x=>(category==='Todos'||x.category===category)&&(x.title+' '+x.category+' '+(x.description||'')).toLowerCase().includes(q));$('#count').textContent='('+filtered.length+')';$('#catalog').innerHTML=filtered.length?filtered.map(tile).join(''):'<div class="empty">Nenhum conteúdo encontrado. O administrador ainda pode cadastrar vídeos autorizados.</div>';const fav=items.filter(x=>favorites.includes(x.id));$('#favorites').innerHTML=fav.length?fav.map(tile).join(''):'<div class="empty">Toque no coração para salvar seus favoritos.</div>';$('#adminList').innerHTML=items.map(x=>'<div class="adminitem"><span><b>'+esc(x.title)+'</b><small class="muted"> '+esc(x.category)+'</small></span><span><button class="secondary" data-edit="'+x.id+'">Editar</button> <button class="secondary" data-delete="'+x.id+'">Excluir</button></span></div>').join('')}
-function open(id){$('#'+id).classList.add('show')}function close(id){$('#'+id).classList.remove('show');if(id==='player')$('#playerArea').innerHTML=''}
-async function load(){const {data,error}=await db.from('catalog_items').select('*').order('created_at',{ascending:false});if(error){$('#catalog').innerHTML='<div class="empty">Erro ao carregar catálogo: '+esc(error.message)+'</div>';return}items=data||[];render()}
-async function isAdmin(){const {data,error}=await db.rpc('is_catalog_admin');return !error&&data===true}
-async function adminCheck(){const {data:{session}}=await db.auth.getSession();if(!session){$('#login').classList.remove('hide');$('#workspace').classList.add('hide');$('#status').textContent='Entre com seu e-mail e senha do Supabase.';return}if(!(await isAdmin())){await db.auth.signOut();$('#status').textContent='Esta conta não está autorizada como administradora.';return}$('#login').classList.add('hide');$('#workspace').classList.remove('hide');$('#status').textContent='Acesso administrativo confirmado.';render()}
-$('#adminOpen').onclick=()=>{open('admin');adminCheck()};$('#explore').onclick=()=>$('#catalogSection').scrollIntoView({behavior:'smooth'});$('#search').oninput=render;
-document.addEventListener('click',async e=>{const c=e.target.closest('[data-close]');if(c)close(c.dataset.close);const f=e.target.closest('[data-cat]');if(f){category=f.dataset.cat;render()}const w=e.target.closest('[data-watch]');if(w){const x=items.find(i=>i.id===w.dataset.watch);if(!x)return;$('#playerTitle').textContent=x.title;$('#playerDesc').textContent=x.description||'';const u=safeUrl(x.video_url),yt=u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);$('#playerArea').innerHTML=yt?'<iframe src="https://www.youtube-nocookie.com/embed/'+yt[1]+'" allowfullscreen title="'+esc(x.title)+'"></iframe>':u&&/\.mp4(?:$|\?)/i.test(u)?'<video controls playsinline src="'+esc(u)+'"></video>':'<p class="notice">Link não reconhecido como MP4 direto ou YouTube. <a href="'+esc(u)+'" target="_blank" rel="noopener">Abrir fonte</a></p>';open('player')}const fav=e.target.closest('[data-fav]');if(fav){const id=fav.dataset.fav;favorites=favorites.includes(id)?favorites.filter(v=>v!==id):[...favorites,id];localStorage.setItem('tl_favs',JSON.stringify(favorites));render()}const del=e.target.closest('[data-delete]');if(del){const {error}=await db.from('catalog_items').delete().eq('id',del.dataset.delete);if(error)return toast(error.message);await load();toast('Conteúdo excluído.')}const ed=e.target.closest('[data-edit]');if(ed){const x=items.find(i=>i.id===ed.dataset.edit);if(!x)return;editing=x.id;const form=$('#contentForm');for(const k of ['title','category','year','duration','video_url','poster_url','description'])form.elements[k].value=x[k]||'';form.elements.featured.checked=!!x.featured;form.querySelector('button[type=submit]').textContent='Salvar alterações';$('#cancelEdit').classList.remove('hide')}});
-$('#login').onsubmit=async e=>{e.preventDefault();const {error}=await db.auth.signInWithPassword({email:$('#email').value.trim(),password:$('#password').value});if(error){$('#status').textContent='Falha no acesso: '+error.message;return}await adminCheck()};
-$('#logout').onclick=async()=>{await db.auth.signOut();await adminCheck()};
-$('#cancelEdit').onclick=()=>{editing=null;$('#contentForm').reset();$('#contentForm').querySelector('button[type=submit]').textContent='Salvar conteúdo';$('#cancelEdit').classList.add('hide')};
-$('#contentForm').onsubmit=async e=>{e.preventDefault();const f=e.currentTarget,d=Object.fromEntries(new FormData(f));if(!safeUrl(d.video_url)||(d.poster_url&&!safeUrl(d.poster_url)))return toast('Informe links HTTP/HTTPS válidos.');const record={title:d.title.trim(),category:d.category,year:d.year||null,duration:d.duration||null,video_url:safeUrl(d.video_url),poster_url:safeUrl(d.poster_url)||null,description:d.description||null,featured:f.elements.featured.checked};const result=editing?await db.from('catalog_items').update(record).eq('id',editing):await db.from('catalog_items').insert(record);if(result.error)return toast('Erro ao salvar: '+result.error.message);editing=null;f.reset();$('#cancelEdit').classList.add('hide');f.querySelector('button[type=submit]').textContent='Salvar conteúdo';await load();toast('Catálogo atualizado para todos.')};
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){close('admin');close('player')}});load();
+(() => {
+  const SUPABASE_URL = 'https://qlyguomavuncaknnhipl.supabase.co';
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Vi1vZ1HHZ2cpxMpCCQX4Rg_hjn3Bu9o';
+  const client = window.supabase?.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+  let adminSession = null;
+  let sharedCatalog = true;
+  const status = document.getElementById('adminStatus');
+  const loginForm = document.getElementById('loginForm');
+  const workspace = document.getElementById('adminWorkspace');
+  const contentForm = document.getElementById('contentForm');
+  const adminButton = document.getElementById('adminBtn');
+  const say = message => { status.textContent = message; };
+  const dbRecord = item => ({title:item.title,category:item.category,year:item.year||null,duration:item.duration||null,description:item.description||null,video_url:item.url,poster_url:item.poster||null,featured:!!item.featured});
+  const appRecord = row => ({id:row.id,title:row.title,category:row.category,year:row.year||'',duration:row.duration||'',description:row.description||'',url:row.video_url,poster:row.poster_url||'',featured:!!row.featured});
+  async function loadCatalog() {
+    if (!client) { say('Não foi possível carregar a conexão. Verifique a conexão com a internet e atualize a página.'); return; }
+    const {data,error} = await client.from('catalog_items').select('*').order('created_at',{ascending:false});
+    if (error) { say('Erro ao carregar o catálogo: '+error.message); return; }
+    items = (data||[]).map(appRecord);
+    render();
+  }
+  async function checkAdmin() {
+    if (!client) { loginForm.classList.remove('hide'); workspace.classList.add('hide'); say('A biblioteca de conexão não carregou. Atualize a página com internet ativa.'); return; }
+    const {data:{session}} = await client.auth.getSession();
+    adminSession = session;
+    if (!session) { loginForm.classList.remove('hide'); workspace.classList.add('hide'); say('Entre com seu e-mail e senha de administrador.'); return; }
+    const {data,error} = await client.rpc('is_catalog_admin');
+    if (error || data !== true) { await client.auth.signOut(); adminSession=null; loginForm.classList.remove('hide'); workspace.classList.add('hide'); say('Esta conta não está autorizada como administradora.'); return; }
+    loginForm.classList.add('hide'); workspace.classList.remove('hide'); say('Acesso de administrador confirmado.');
+    await loadCatalog();
+  }
+  adminButton.addEventListener('click', () => { checkAdmin(); });
+  loginForm.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (!client) return say('Conexão indisponível. Atualize a página com internet ativa.');
+    const email=document.getElementById('adminEmail').value.trim();
+    const password=document.getElementById('adminPassword').value;
+    const {error}=await client.auth.signInWithPassword({email,password});
+    if(error) return say('Não foi possível entrar: '+error.message);
+    await checkAdmin();
+  });
+  document.getElementById('logoutBtn').addEventListener('click', async () => { await client.auth.signOut(); adminSession=null; loginForm.classList.remove('hide'); workspace.classList.add('hide'); say('Você saiu da administração.'); });
+  contentForm.addEventListener('submit', async event => {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    const data=Object.fromEntries(new FormData(contentForm));
+    if(!safeUrl(data.url)) return toast('Informe um link HTTP ou HTTPS válido.');
+    if(data.poster && !safeUrl(data.poster)) return toast('O link da capa precisa ser HTTP ou HTTPS.');
+    const record={title:data.title.trim(),category:data.category,year:data.year||null,duration:data.duration.trim()||null,video_url:safeUrl(data.url),poster_url:safeUrl(data.poster)||null,description:data.description.trim()||null,featured:contentForm.elements.featured.checked};
+    let result;
+    if(editingId) result=await client.from('catalog_items').update(record).eq('id',editingId);
+    else result=await client.from('catalog_items').insert(record);
+    if(result.error) return toast('Erro ao salvar: '+result.error.message);
+    resetForm(); await loadCatalog(); toast('Catálogo compartilhado atualizado.');
+  }, true);
+  document.addEventListener('click', async event => {
+    const del=event.target.closest('[data-delete]');
+    if(del && workspace && !workspace.classList.contains('hide')) {
+      event.preventDefault(); event.stopImmediatePropagation();
+      const {error}=await client.from('catalog_items').delete().eq('id',del.dataset.delete);
+      if(error) return toast('Erro ao excluir: '+error.message);
+      favorites=favorites.filter(id=>id!==del.dataset.delete); await loadCatalog(); toast('Conteúdo removido do catálogo.');
+    }
+    const edit=event.target.closest('[data-edit]');
+    if(edit && workspace && !workspace.classList.contains('hide')) {
+      const item=items.find(entry=>entry.id===edit.dataset.edit);
+      if(item) editingId=item.id;
+    }
+  }, true);
+  const openSearch = document.getElementById('openSearch');
+  const openResults = document.getElementById('openResults');
+  const openSearchBtn = document.getElementById('openSearchBtn');
+  const acceptedLicense = value => /creativecommons\.org\/(licenses\/(by|by-sa)\/|publicdomain\/|publicdomain\/zero\/)/i.test(String(value||''));
+  async function searchOpenCatalog() {
+    const term = openSearch.value.trim();
+    if (!term) { openResults.textContent = 'Digite um tema para pesquisar.'; return; }
+    openSearchBtn.disabled = true;
+    openResults.textContent = 'Pesquisando itens no Internet Archive e verificando licenças…';
+    try {
+      const query = `mediatype:movies AND collection:opensource_movies AND title:(${term.replace(/[():]/g,' ').trim().split(/\s+/).map(word=>`\"${word.replace(/\"/g,'')}\"`).join(' AND ')})`;
+      const endpoint = 'https://archive.org/advancedsearch.php?q='+encodeURIComponent(query)+'&fl[]=identifier&fl[]=title&fl[]=year&rows=12&page=1&output=json';
+      const response = await fetch(endpoint);
+      if (!response.ok) throw new Error('O catálogo externo não respondeu.');
+      const payload = await response.json();
+      const docs = payload.response?.docs || [];
+      if (!docs.length) { openResults.textContent = 'Nenhum resultado encontrado. Tente outro termo.'; return; }
+      openResults.textContent = 'Verificando arquivos e licenças dos resultados…';
+      const checked = await Promise.all(docs.map(async doc => {
+        try {
+          const metaResponse = await fetch('https://archive.org/metadata/'+encodeURIComponent(doc.identifier));
+          if (!metaResponse.ok) return null;
+          const meta = await metaResponse.json();
+          const m = meta.metadata || {};
+          const license = m.licenseurl || m.license_url || m.license || '';
+          if (!acceptedLicense(license)) return null;
+          const file = (meta.files||[]).find(f => String(f.name||'').toLowerCase().endsWith('.mp4') && !f.name.includes('__ia_thumb'));
+          if (!file) return null;
+          const videoUrl = 'https://archive.org/download/'+encodeURIComponent(doc.identifier)+'/'+file.name.split('/').map(encodeURIComponent).join('/');
+          return {id:doc.identifier,title:m.title||doc.title||doc.identifier,year:m.year||doc.year||'',creator:m.creator||'',license,videoUrl,detail:'https://archive.org/details/'+encodeURIComponent(doc.identifier)};
+        } catch { return null; }
+      }));
+      const valid = checked.filter(Boolean);
+      openResults.innerHTML = valid.length ? `<button class="btn" type="button" data-open-import-all>Adicionar todos os ${valid.length} resultados validados</button>`+valid.map((item,index)=>`<div class="admin-row"><div style="min-width:0"><b>${esc(item.title)}</b><small>${esc(item.year)} · Licença: ${esc(item.license)}${item.creator?' · '+esc(item.creator):''}</small><small><a href="${esc(item.detail)}" target="_blank" rel="noopener noreferrer" style="color:var(--accent2)">Conferir origem e licença</a></small></div><button class="btn small" type="button" data-open-import="${index}">Adicionar</button></div>`).join('') : '<p class="muted">Nenhum resultado passou pelas verificações de licença aberta e arquivo MP4. Isso não significa que todo o restante seja protegido; apenas que não foi possível validar automaticamente.</p>';
+      openResults._items = valid;
+    } catch (error) {
+      openResults.textContent = 'Não foi possível pesquisar agora: '+error.message+' Tente novamente mais tarde.';
+    } finally { openSearchBtn.disabled = false; }
+  }
+  openSearchBtn.addEventListener('click', searchOpenCatalog);
+  openSearch.addEventListener('keydown', event => { if (event.key === 'Enter') searchOpenCatalog(); });
+  openResults.addEventListener('click', async event => {
+    const allButton = event.target.closest('[data-open-import-all]');
+    if (allButton) {
+      const candidates = openResults._items || [];
+      if (!candidates.length) return;
+      allButton.disabled = true;
+      allButton.textContent = 'Importando…';
+      const existing = new Set(items.map(entry => entry.url));
+      const records = candidates.filter(item => !existing.has(item.videoUrl)).map(item => ({title:item.title,category:'Filme independente',year:String(item.year||''),duration:null,video_url:item.videoUrl,poster_url:null,description:`Origem: Internet Archive (${item.detail}). Licença informada: ${item.license}. Verifique e cumpra as condições de atribuição e uso da licença antes de divulgar.`,featured:false}));
+      if (!records.length) { allButton.textContent = 'Já estão no catálogo'; return; }
+      const {error} = await client.from('catalog_items').insert(records);
+      if (error) { allButton.disabled = false; allButton.textContent = 'Tentar importar novamente'; toast('Falha na importação em lote: '+error.message); return; }
+      await loadCatalog();
+      allButton.textContent = `${records.length} adicionados`;
+      toast(`${records.length} conteúdos adicionados ao catálogo.`);
+      return;
+    }
+    const button = event.target.closest('[data-open-import]');
+    if (!button) return;
+    const item = openResults._items?.[Number(button.dataset.openImport)];
+    if (!item) return;
+    button.disabled = true;
+    const record = {title:item.title,category:'Filme independente',year:String(item.year||''),duration:null,video_url:item.videoUrl,poster_url:null,description:`Origem: Internet Archive (${item.detail}). Licença informada: ${item.license}. Verifique e cumpra as condições de atribuição e uso da licença antes de divulgar.`,featured:false};
+    const {error} = await client.from('catalog_items').insert(record);
+    if (error) { button.disabled = false; toast('Não foi possível adicionar: '+error.message); return; }
+    await loadCatalog();
+    button.textContent = 'Adicionado';
+    toast('Conteúdo adicionado ao catálogo compartilhado.');
+  });
+  if (client) loadCatalog();
+})();
 </script>
-</body></html>
+</body>
+</html>
